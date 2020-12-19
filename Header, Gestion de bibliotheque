@@ -1,0 +1,27 @@
+struct date
+{
+    int jour;
+    int mois;
+    int annee;
+};
+typedef struct date DATE;
+
+struct livre
+{
+    int ref;
+    char titre[50];
+    char auteur[50];
+    char categorie[50];
+    int quantite;
+};
+typedef struct livre LIVRE;
+
+struct client
+{
+    int code;
+    char nom[50];
+    char prenom[50];
+    int cin;
+    DATE date_abonnement;
+};
+typedef struct client CLIENT;
