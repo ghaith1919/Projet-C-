@@ -1,0 +1,317 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "mini.h"
+
+int main()
+{
+    int a,e,f,i,j,k,l,m,n,o,p,cod,co,re,rf,test;
+    e=1;
+    f=1;
+    k=0;//ajout client
+    o=0;//ajout du livre
+    p=0;//ajout d'emprunt
+    n=1;
+
+    int option,option2,action,action2;
+    CLIENT clt;
+    CLIENT *tab;
+    CLIENT *te;
+    LIVRE *t;
+    tab=(CLIENT *) malloc (n * sizeof(CLIENT));//tableau de client
+    if(!tab) exit (-1);
+    te=(CLIENT *) malloc (e * sizeof(CLIENT)); //tableau des emprunts
+    if(!tab) exit (-3);
+    t=(LIVRE*) malloc(f*sizeof(LIVRE)); // tableau de livre
+    if(!t)exit(-10);
+
+    //Menu Principal
+    do
+    {
+    printf("\n   [Menu Principal]\n\n   Veuillez choisir une option\n");
+    printf("---------------------------");
+    printf("\n[1] Gerer les clients \n[2] Gerer les livres \n[3] Gerer les emprunts\n[4] Exit\n");
+    printf("---------------------------");
+    printf("\n Entrer un choix: ");
+    scanf("%d",&option);
+    //Menu gestion des clients
+    if (option==1)
+    {
+        do
+        {
+        printf("\n [Menu gestion des clients]\n\n   Veuillez choisir une action \n");
+        printf("****************************");
+        printf("\n [1] Consulter un client \n [2] Ajouter un client "
+               "\n [3] Modifier les cordonnees d'un client \n [4] Supprimer un client  \n"
+               " [5] Affichage de tous les clients \n [6] Exit \n");
+        printf("****************************");
+        printf("\n Entrer un choix:  ");
+        scanf("%d",&action);
+
+        switch(action)
+        {
+            case 1: //Consulter un client
+                printf("\n donner le code du client a consulter \n");
+                scanf("%d",&cod);
+                for(i=0; i<n-1;i++)
+                {
+                    int aux=0;
+                    if (cod==(tab+i)->code)
+                    {
+                        printf("\n ******************************************************* \n");
+                        printf("\n le code du client [%d] est: %d \n",i+1,(tab+i)->code);
+                        printf("\n le nom et le prenom du client [%d] est: %s %s\n",i+1,(tab+i)->nom,(tab+i)->prenom);
+                        printf("\nle numero de CIN du client [%d] est %d\n",i+1,(tab+i)->cin);
+                        printf("\n la date d'abonnement du client [%d]  est %d/%d/%d\n",i+1,(tab+i)->date_abonnement.jour,(tab+i)->date_abonnement.mois,(tab+i)->date_abonnement.annee);
+                        printf("\n ******************************************************* \n");
+                  aux=1;
+                    }
+                    if (aux==0)
+
+                      printf("le code n'est pas trouvé");
+                }
+            break;
+            case 2 : //Ajouter un client
+                for(i=k; i<n; i++)
+                    {
+                        printf("\n Donner le code du client \n");
+                        scanf("%d",&(tab+i)->code);
+                        printf("\n Donner le nom et le prenom du client \n");
+                        scanf("%s%s",&(tab+i)->nom,&(tab+i)->prenom);
+                        printf("\n Donner le numero du CIN \n");
+                        scanf("%d",&(tab+i)->cin);
+                        printf("\n Donner la date de l'abonnement \n");
+                        scanf("%d%d%d",&(tab+i)->date_abonnement.jour,&(tab+i)->date_abonnement.mois,&(tab+i)->date_abonnement.annee);
+                    }
+                    n+=1;
+                    k+=1;
+                    tab= (CLIENT *)realloc (tab,n* sizeof(CLIENT));
+                    if(!tab) exit(-2);
+
+            break;
+            case 3: //Modifier les cordonnees d'un client
+                printf("\n donner le code de client a modifier \n");
+                scanf("%d",&clt.code);
+                for (i=0; i<n-1;i++)
+                {
+                    if (((tab+i)->code)==clt.code)
+                    {
+                        printf("\n Donner les nouveaux nom et le prenom du client \n");
+                        scanf("%s%s",&(tab+i)->nom,&(tab+i)->prenom);
+                        printf("\n Donner le nouveau numero du CIN  \n");
+                        scanf("%d",&(tab+i)->cin);
+                        printf("\n Donner la nouvelle date de l'abonnement \n");
+                        scanf("%d%d%d",&(tab+i)->date_abonnement.jour,&(tab+i)->date_abonnement.mois,&(tab+i)->date_abonnement.annee);
+
+                    }
+                }
+            break;
+            case 4: // supression du client
+                printf("\n donner le code du client a supprimer \n");
+                scanf("%d",&clt.code);
+                for(i=0;i<n-1;i++)
+                {
+                    if (((tab+i)->code)==clt.code)
+                    {
+                    for(j=i; j<n-1; j++)
+                    *(tab+j)=*(tab+j+1);
+                    }
+                }
+                n=n-1;
+            break;
+            case 5: // affichage des clients
+                printf("affichage des clients : \n");
+                printf("\n ******************************************************* \n");
+                for (int i=0; i<n-1; i++)
+                    {
+                printf("\n le code du client [%d] est: %d \t \n",i+1,(tab+i)->code);
+                printf("\n le nom et le prenom du client: [%d] est: %s %s\t\n",i+1,(tab+i)->nom,(tab+i)->prenom);
+                printf("\n le numero de CIN du client [%d] est: %d\t\n",i+1,(tab+i)->cin);
+                printf("\n la date d'abonnement du client [%d] est: %d/%d/%d\t\n",i+1,(tab+i)->date_abonnement.jour,(tab+i)->date_abonnement.mois,(tab+i)->date_abonnement.annee);
+                printf("\n ******************************************************* \n");
+                    }
+             break;
+       }
+
+       }
+     while (action!=6);
+     }
+    //[Menu gestion des livres]
+    else if (option==2)
+    {
+        do
+        {
+        printf("\n [Menu gestion des livres]\n veuillez choisir une action \n");
+        printf("****************************");
+        printf("\n [1] Ajouter un livre \n [2] Supprimer un livre \n"
+               " [3] Chercher un livre\n [4] affichage des livres \n [5]Exit \n ");
+        printf("****************************");
+        printf("\n Entrer un choix: ");
+        scanf("%d",&a);
+        switch(a)
+        {
+        case 1://ajout du livre
+            for(m=o; m<f; m++)
+                    {
+                        printf("\n Donner la reference du livre \n");
+                        scanf("%d",&(t+m)->ref);
+                        printf("\n Donner le titre du livre \n");
+                        scanf("%s",&(t+m)->titre);
+                        printf("\n Donner l'auteur du livre \n");
+                        scanf("%s",&(t+m)->auteur);
+                        printf("\n Donner la categorie \n");
+                        scanf("%s",&(t+m)->categorie);
+                        printf("\n Donner la quantite \n");
+                        scanf("%d",&(t+m)->quantite);
+                    }
+                    f+=1;
+                    o+=1;
+                    t= (LIVRE *)realloc (t,f* sizeof(LIVRE));
+                    if(!t) exit(-22);
+
+                    break;
+        case 2 : //supprimer livre
+                printf("\n donner la reference du livre a supprimer \n");
+                scanf("%d",&re);
+                for(m=0; m<f-1; m++)
+                {
+                    if (re==(t+m)->ref)
+                    {
+                    for(j=m; j<f-1; j++)
+                    *(t+j)=*(t+j+1);
+                    }
+                }
+                f=f-1;
+        break;
+        case 3: //chercher un livre
+            printf("\n la reference du livre a chercher \n");
+            scanf("%d",&rf);
+              int tt=0;
+             for(m=0; m<f-1; m++)
+
+                {
+
+                    if ((rf==(t+m)->ref))
+                    {
+                    printf("\n ******************************************************* \n");
+                    printf("\n la reference du livre est: %d \n",(t+m)->ref);
+                    printf("\n le titre du livre est: %s \n",(t+m)->titre);
+                    printf("\n l'auteur du livre est: %s \n",(t+m)->auteur);
+                    printf("\n la categorie du livre est: %s \n",(t+m)->categorie);
+                    printf("\n la quantite disponible du livre est: %d \n",(t+m)->quantite);
+                    printf("\n ******************************************************* \n");
+                    tt=1;
+                    } }
+                    if (tt==0)
+
+                        printf("\n livre introuvable \n");
+        break;
+
+        case 4: // affichage de tout les livres
+                printf("affichage des livres : \n");
+                printf("\n ******************************************************* \n");
+                for(m=0; m<f-1; m++)
+                {
+                    printf("\n la reference du livre est %d \n",(t+m)->ref);
+                    printf("\n le titre du livre est %s \n",(t+m)->titre);
+                    printf("\n l'auteur du livre est %s \n",(t+m)->auteur);
+                    printf("\n la categorie du livre est: %s \n",(t+m)->categorie);
+                    printf("\n la quantite disponible du livre est %d \n",(t+m)->quantite);
+                    printf("\n ******************************************************* \n");
+                }
+                break;
+        }
+
+        }
+        while(a!=5);
+    }
+    //Menu gestion des emprunts:
+    else if (option==3)
+    {
+        do
+        {
+        printf("\n [Menu gestion des emprunts]\n veuillez choisir une action \n");
+        printf("****************************");
+        printf("\n [1] Ajouter Emprunt \n [2] Afficher tous les emprunts \n [3] Chercher un emprunteur\n [4] Exit\n");
+        printf("****************************");
+        printf("\n Entrer un choix: ");
+        scanf("%d",&option2);
+        switch(option2)
+        {
+        case 1://Ajout emprunt
+            for(l=p; l<e; l++)
+            {
+            printf("\n Donner le code du client \n");
+            scanf("%d",&(te+l)->code);
+            printf("\n Donner le nom et le prenom de l'emprunteur \n");
+            scanf("%s%s",&(te+l)->nom,&(te+l)->prenom);
+            printf("\n Donner le numero du CIN \n");
+            scanf("%d",&(te+l)->cin);
+            do
+            {
+            printf("\n donner la reference du livre a emprunter \n");
+            scanf("%d",&rf);
+
+            for(m=0; m<f; m++)
+            {
+                test=0;
+                if (rf==((t+m)->ref)&&(((t+m)->quantite)>0))
+                    {test=1;
+                    (t+m)->quantite = ((t+m)->quantite)-1 ;
+                     break;
+                    }
+                else
+                printf("echec d'emprunt veuillez ressayer");
+            }
+            }
+            while (test==0);
+            printf("\n Donner la date de debut de l'emprunt \n");
+            scanf("%d%d%d",&(te+l)->date_abonnement.jour,&(te+l)->date_abonnement.mois,&(te+l)->date_abonnement.annee);
+            printf("\n Donner la date de fin de l'emprunt \n");
+            scanf("%d%d%d",&(te+l)->date_abonnement.jour,&(te+l)->date_abonnement.mois,&(te+l)->date_abonnement.annee);
+            }
+            e+=1;
+            p+=1;
+            te= (CLIENT *)realloc (te,e* sizeof(CLIENT));
+            if(!te) exit(-4);
+
+            break;
+        case 2://affichage des eprunts
+                printf("affichage des emprunteurs : \n");
+                printf("\n ******************************************************* \n");
+                for (int l=0; l<e-1; l++)
+                    {
+                printf("\n le code de l'emprunteur [%d] est: %d \t \n",l+1,(te+l)->code);
+                printf("\n le nom et le prenom de l'emprunteur: [%d] est: %s %s\t\n",l+1,(te+l)->nom,(te+l)->prenom);
+                printf("\n le numero de CIN de l'emprunteur [%d] est: %d\t\n",l+1,(te+l)->cin);
+                printf("\n la reference du livre emprunter est: [%d]  ",rf );
+                printf("\n la date de debut d'emprunt de l'emprunteur [%d] est: %d/%d/%d\t\n",l+1,(te+l)->date_abonnement.jour,(te+l)->date_abonnement.mois,(te+l)->date_abonnement.annee);
+                printf("\n la date de fin d'emprunt de l'emprunteur [%d] est: %d/%d/%d\t\n",l+1,(te+l)->date_abonnement.jour,(te+l)->date_abonnement.mois,(te+l)->date_abonnement.annee);
+                printf("\n ******************************************************* \n");
+                    }
+                    break;
+        case 3://chercher emprunt
+            printf("\n donne le code de l'emprunteur à chercher \n");
+            scanf("%d",&co);
+                for(l=0; l<e-1;l++)
+                {
+                    if (co==(te+l)->code)
+                    {
+                        printf("\n ******************************************************* \n");
+                        printf("c'est l'emprunteur [%d]: %s %s ",l+1,(te+l)->nom,(te+l)->prenom);
+                        printf("\n le code de l'emprunteur [%d] est: %d \n",l+1,(te+l)->code);
+                        printf("\nle numero de CIN de l'emprunteur [%d] est %d\n",l+1,(te+l)->cin);
+                        printf("\n la date de debut d'emprunt de l'emprunteur [%d] est: %d/%d/%d\t\n",l+1,(te+l)->date_abonnement.jour,(te+l)->date_abonnement.mois,(te+l)->date_abonnement.annee);
+                        printf("\n la date de fin d'emprunt de l'emprunteur [%d] est: %d/%d/%d\t\n",l+1,(te+l)->date_abonnement.jour,(te+l)->date_abonnement.mois,(te+l)->date_abonnement.annee);
+                        printf("\n ******************************************************* \n");
+                    }
+                     else if ((l==e-2)&&(co=!(te+e-2)))
+                      printf("le code n'est pas trouvé");
+                }
+        break;
+        }
+        }
+        while(option2!=4);
+      }
+    }
+    while(option!=4);
+}
